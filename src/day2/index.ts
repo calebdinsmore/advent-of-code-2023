@@ -13,6 +13,13 @@ class Game {
     public greenResults: number[] = []
   ) {}
 
+  get power(): number {
+    const redMax = Math.max(...this.redResults);
+    const greenMax = Math.max(...this.greenResults);
+    const blueMax = Math.max(...this.blueResults);
+    return redMax * greenMax * blueMax;
+  }
+
   static fromRegex(match: RegExpMatchArray): Game {
     const { gameNum, resultString } = match.groups!;
     const game = new Game(Number.parseInt(gameNum));
@@ -60,7 +67,15 @@ class Day2 extends Day {
   }
 
   solveForPartTwo(input: string): string {
-    return 'Solve me';
+    const matches = input.matchAll(GAME_LINE_RE);
+    const games = [];
+    for (const match of matches) {
+      games.push(Game.fromRegex(match));
+    }
+    return games
+      .map((g) => g.power)
+      .reduce((a, b) => a + b)
+      .toString();
   }
 
   private possibleGames(games: Game[]) {
