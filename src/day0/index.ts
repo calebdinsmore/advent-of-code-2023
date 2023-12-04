@@ -1,4 +1,4 @@
-import { Day } from "../day";
+import { Day } from '../day';
 
 class Day0 extends Day {
   constructor() {
@@ -6,11 +6,11 @@ class Day0 extends Day {
   }
 
   solveForPartOne(input: string): string {
-    return "Solve me";
+    return 'Solve me';
   }
 
   solveForPartTwo(input: string): string {
-    return "Solve me";
+    return 'Solve me';
   }
 }
 
