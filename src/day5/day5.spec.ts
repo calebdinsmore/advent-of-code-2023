@@ -42,6 +42,6 @@ describe('On Day 5', () => {
   });
 
   it(`part2 is correct`, () => {
-    expect(day5.solveForPartTwo(INPUT2)).toBe('Solve me');
+    expect(day5.solveForPartTwo(INPUT2)).toBe('46');
   });
 });

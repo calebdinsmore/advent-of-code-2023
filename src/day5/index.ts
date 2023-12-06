@@ -3,10 +3,16 @@ import { range } from '../utils/range';
 
 class FoodProductionMap {
   mapEntries: number[][] = [];
+  max = Number.MIN_SAFE_INTEGER;
+  min = Number.MAX_SAFE_INTEGER;
 
-  defaultGet(key: number): number {
+  setMapEntries(entries: number[][]) {
+    this.mapEntries = entries;
+  }
+
+  getValue(key: number): number {
     for (const entry of this.mapEntries) {
-      if (key > entry[1] && key < entry[1] + entry[2]) {
+      if (key >= entry[1] && key < entry[1] + entry[2]) {
         return entry[0] + (key - entry[1]);
       }
     }
@@ -24,13 +30,13 @@ class Almanac {
   humidityToLocation: FoodProductionMap = new FoodProductionMap();
 
   getLocationForSeed(seed: number): number {
-    const soil = this.seedToSoil.defaultGet(seed);
-    const fertilizer = this.soilToFertilizer.defaultGet(soil);
-    const water = this.fertilizerToWater.defaultGet(fertilizer);
-    const light = this.waterToLight.defaultGet(water);
-    const temp = this.lightToTemperature.defaultGet(light);
-    const humidity = this.temperatureToHumidity.defaultGet(temp);
-    return this.humidityToLocation.defaultGet(humidity);
+    const soil = this.seedToSoil.getValue(seed);
+    const fertilizer = this.soilToFertilizer.getValue(soil);
+    const water = this.fertilizerToWater.getValue(fertilizer);
+    const light = this.waterToLight.getValue(water);
+    const temp = this.lightToTemperature.getValue(light);
+    const humidity = this.temperatureToHumidity.getValue(temp);
+    return this.humidityToLocation.getValue(humidity);
   }
 
   validate() {
@@ -60,7 +66,19 @@ class Day5 extends Day {
   }
 
   solveForPartTwo(input: string): string {
-    return 'Solve me';
+    const { seeds, almanac } = this.generateSeedsAndAlmanac(input);
+    let lowestLoc = Number.MAX_SAFE_INTEGER;
+    for (let i = 0; i < seeds.length; i += 2) {
+      const seedStart = seeds[i];
+      const seedEnd = seeds[i] + seeds[i + 1];
+      for (let j = seedStart; j < seedEnd; j++) {
+        const location = almanac.getLocationForSeed(j);
+        if (location < lowestLoc) {
+          lowestLoc = location;
+        }
+      }
+    }
+    return lowestLoc.toString();
   }
 
   private generateSeedsAndAlmanac(input: string) {

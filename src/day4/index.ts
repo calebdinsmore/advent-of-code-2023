@@ -1,5 +1,4 @@
 import { Day } from '../day';
-import _ from 'lodash';
 
 const CARD_RE = /Card[ ]+(?<cardNum>\d+): (?<winningNums>[\d\s]+)\|(?<cardNums>[\d ]+)/gm;
 
